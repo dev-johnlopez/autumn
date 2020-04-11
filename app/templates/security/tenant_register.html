@@ -1,0 +1,130 @@
+{% extends "security/layouts/template.html" %}
+
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+
+{% block form %}
+<div class="card">
+    <div class="card-body p-4">
+        <div class="text-center w-75 m-auto">
+          <h2>
+            {% if tenant is defined %}
+                <span class="logo-sm-text-light">{{ tenant.name }}</span>
+            {% else %}
+                <span class="logo-sm-text-light">Assignably</span>
+            {% endif %}
+          </h2>
+          <p class="text-muted mb-4 mt-3">Don't have an account? Create your own account, it takes less than a minute</p>
+        </div>
+
+        <form action="{{ url_for('security.tenant_register') }}" method="POST" name="register_user_form">
+            {{ register_user_form.hidden_tag() }}
+            {{ register_user_form.contact.hidden_tag() }}
+            {% if register_user_form.organization_name is defined %}
+              <div class="form-group">
+                  <label for="fullname">Company Name</label>
+                  {{ render_field(register_user_form.organization_name,class="form-control", placeholder="Company Name", required="true") }}
+                  {% if register_user_form.organization_name.errors %}
+                    {% for error in register_user_form.organization_name.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                    {% endfor %}
+                  {% endif %}
+              </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="fullname">First Name</label>
+                {{ render_field(register_user_form.contact.first_name,id="inputFirstName", class="form-control", placeholder="First Name", required="true") }}
+                {% if register_user_form.contact.first_name.errors %}
+                  {% for error in register_user_form.contact.first_name.errors %}
+                  <div class="invalid-feedback d-block">
+                    {{ error }}
+                  </div>
+                  {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="fullname">Last Name</label>
+                {{ render_field(register_user_form.contact.last_name,id="inputLastName", class="form-control", placeholder="Last Name", required="true") }}
+                {% if register_user_form.contact.last_name.errors %}
+                  {% for error in register_user_form.contact.last_name.errors %}
+                  <div class="invalid-feedback d-block">
+                    {{ error }}
+                  </div>
+                  {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="fullname">Phone Number</label>
+                {{ render_field(register_user_form.contact.phone,id="inputPhone", class="form-control", placeholder="Phone #", required="true") }}
+                {% if register_user_form.contact.phone.errors %}
+                  {% for error in register_user_form.contact.phone.errors %}
+                  <div class="invalid-feedback d-block">
+                    {{ error }}
+                  </div>
+                  {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="emailaddress">Email address</label>
+                {{ render_field(register_user_form.email,id="inputEmail", class="form-control", placeholder="Email", required="true") }}
+                {% if register_user_form.email.errors %}
+                  {% for error in register_user_form.email.errors %}
+                  <div class="invalid-feedback d-block">
+                    {{ error }}
+                  </div>
+                  {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ render_field(register_user_form.password,id="inputPassword", class="form-control", placeholder="Password", required="true") }}
+                {% if register_user_form.password.errors %}
+                  {% for error in register_user_form.password.errors %}
+                  <div class="invalid-feedback d-block">
+                    {{ error }}
+                  </div>
+                  {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password">Confirm Password</label>
+                {{ render_field(register_user_form.password_confirm,id="confirmPassword", class="form-control", placeholder="Confirm Password", required="true") }}
+                {% if register_user_form.password_confirm.errors %}
+                  {% for error in register_user_form.password_confirm.errors %}
+                  <div class="invalid-feedback d-block">
+                    {{ error }}
+                  </div>
+                  {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="checkbox-signup">
+                    <label class="custom-control-label" for="checkbox-signup">I accept <a href="javascript: void(0);" class="text-dark">Terms and Conditions</a></label>
+                </div>
+            </div>
+            <div class="form-group mb-0 text-center">
+                {{ render_field(register_user_form.submit, class="btn btn-lg btn-primary btn-block") }}
+            </div>
+
+        </form>
+
+    </div> <!-- end card-body -->
+</div>
+<!-- end card -->
+
+<div class="row mt-3">
+    <div class="col-12 text-center">
+        <p class="text-muted">Already have account?
+          {#<a href="{{ url_for_security('login')}}" class="text-muted font-weight-medium ml-1">Sign In</a>#}
+          <a href="{{ url_for('security.login')}}" class="text-muted font-weight-medium ml-1">Sign In</a>
+        </p>
+    </div> <!-- end col -->
+</div>
+<!-- end row -->
+{% endblock %}
